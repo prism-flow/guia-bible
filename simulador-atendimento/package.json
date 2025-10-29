@@ -1,8 +1,0 @@
-{
-  "name": "simulador-atendimento",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "netlify dev",
-    "build": "echo \"no build step\""
-  }
-}
