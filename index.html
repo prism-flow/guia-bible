@@ -1,0 +1,1157 @@
+import React, { useState } from ‘react’;
+import { Book, User, Calendar, FileText, ChevronDown, ChevronUp, Star, Heart, Sparkles } from ‘lucide-react’;
+
+const GuiaCompletoBiblia = () => {
+const [expandedBooks, setExpandedBooks] = useState({});
+const [selectedSection, setSelectedSection] = useState(‘pentateuco’);
+
+const toggleBook = (id) => {
+setExpandedBooks(prev => ({
+…prev,
+[id]: !prev[id]
+}));
+};
+
+const secoes = {
+pentateuco: {
+nome: ‘PENTATEUCO - A LEI’,
+descricao: ‘Os 5 primeiros livros escritos por Moisés. A fundação de tudo!’,
+cor: ‘bg-gradient-to-r from-emerald-600 to-emerald-700’,
+icon: ‘📜’,
+livros: [
+{
+id: ‘genesis’,
+nome: ‘Gênesis’,
+num: ‘1º’,
+autor: ‘Moisés’,
+data: ‘1440-1400 a.C.’,
+caps: ‘50 capítulos’,
+tema: ‘🌍 Origens’,
+resumo: ‘O livro dos COMEÇOS: criação do mundo, humanidade, pecado e Israel.’,
+conteudo: ‘Criação em 6 dias • Adão e Eva no Éden • A Queda no pecado • Caim mata Abel • Dilúvio de Noé • Torre de Babel • Abraão chamado por Deus • Isaque nascido • Jacó e seus 12 filhos • José vendido ao Egito • José governa o Egito’,
+versiculo: ‘“No princípio, criou Deus os céus e a terra” (1:1)’,
+destaque: ‘Cobre mais tempo que qualquer outro livro - da criação até 1800 a.C.! Explica de onde viemos e por que estamos aqui.’
+},
+{
+id: ‘exodo’,
+nome: ‘Êxodo’,
+num: ‘2º’,
+autor: ‘Moisés’,
+data: ‘1440-1400 a.C.’,
+caps: ‘40 capítulos’,
+tema: ‘🔓 Libertação’,
+resumo: ‘Israel ESCRAVIZADO no Egito é libertado por Deus através de Moisés.’,
+conteudo: ‘430 anos no Egito • Moisés salvo do rio Nilo • Sarça ardente que não se consome • 10 pragas devastadoras • Páscoa instituída • Mar Vermelho dividido • Maná do céu diariamente • Água jorra da rocha • 10 Mandamentos no Sinai • Bezerro de ouro • Tabernáculo construído’,
+versiculo: ‘“Deixa ir o meu povo!” (5:1)’,
+destaque: ‘As 10 pragas mostram que Javé é maior que todos os deuses do Egito! Cada praga ataca um deus egípcio.’
+},
+{
+id: ‘levitico’,
+nome: ‘Levítico’,
+num: ‘3º’,
+autor: ‘Moisés’,
+data: ‘1440-1400 a.C.’,
+caps: ‘27 capítulos’,
+tema: ‘🕊️ Santidade’,
+resumo: ‘Manual de ADORAÇÃO: como um povo pecador se aproxima de Deus santo.’,
+conteudo: ‘5 tipos de sacrifícios explicados • Consagração sacerdotal • Animais limpos e impuros • Dia da Expiação anual • Código de santidade • Festas sagradas de Israel • Ano sabático (7º ano) • Ano do Jubileu (50º ano)’,
+versiculo: ‘“Santos sereis, porque EU, o SENHOR vosso Deus, sou santo” (19:2)’,
+destaque: ‘Todo sacrifício de animal aponta para Jesus, o Cordeiro perfeito de Deus que tira o pecado do mundo!’
+},
+{
+id: ‘numeros’,
+nome: ‘Números’,
+num: ‘4º’,
+autor: ‘Moisés’,
+data: ‘1440-1400 a.C.’,
+caps: ‘36 capítulos’,
+tema: ‘🏜️ Peregrinação’,
+resumo: ‘40 ANOS vagando no deserto por causa da incredulidade e rebeldia.’,
+conteudo: ‘2 censos do povo • Organização das 12 tribos • Reclamações constantes • 12 espias enviados a Canaã • 10 voltam com medo, só 2 com fé • Rebelião de Corá engolido pela terra • Água jorra da rocha • Serpente de bronze no poste • Balaão e sua jumenta falam’,
+versiculo: ‘“O SENHOR te abençoe e te guarde” (6:24)’,
+destaque: ‘Uma geração inteira morre no deserto por não confiar em Deus. Lição dura sobre consequências!’
+},
+{
+id: ‘deuteronomio’,
+nome: ‘Deuteronômio’,
+num: ‘5º’,
+autor: ‘Moisés’,
+data: ‘1440-1400 a.C.’,
+caps: ‘34 capítulos’,
+tema: ‘🔄 Segunda Lei’,
+resumo: ‘Moisés REPETE a Lei para a nova geração antes de entrar em Canaã.’,
+conteudo: ‘Revisão completa da jornada • 10 Mandamentos repetidos • Shemá: “Ouve, Israel!” • Bênçãos da obediência • Maldições da desobediência • Cântico de Moisés • Bênção sobre as tribos • Morte de Moisés aos 120 anos • Josué assume a liderança’,
+versiculo: ‘“Amarás o SENHOR teu Deus de todo o teu coração, de toda a tua alma e de todas as tuas forças” (6:5)’,
+destaque: ‘Livro MAIS CITADO por Jesus! Moisés morre vendo a Terra Prometida de longe, mas não entra.’
+}
+]
+},
+historicos: {
+nome: ‘LIVROS HISTÓRICOS’,
+descricao: ‘12 livros contando a história de Israel por mais de 1000 anos!’,
+cor: ‘bg-gradient-to-r from-blue-600 to-blue-700’,
+icon: ‘📚’,
+livros: [
+{
+id: ‘josue’,
+nome: ‘Josué’,
+num: ‘6º’,
+autor: ‘Josué’,
+data: ‘1400-1370 a.C.’,
+caps: ‘24 capítulos’,
+tema: ‘⚔️ Conquista’,
+resumo: ‘CONQUISTA da Terra Prometida sob a liderança corajosa de Josué.’,
+conteudo: ‘Josué sucede Moisés • Espias e Raabe a prostituta • Jordão atravessado milagrosamente • Muralhas de Jericó caem • Pecado de Acã traz derrota • Conquista de Ai • Sol e lua param no céu! • Terra dividida entre as 12 tribos • Despedida final de Josué’,
+versiculo: ‘“Escolhei hoje a quem sirvais… eu e a minha casa serviremos ao SENHOR” (24:15)’,
+destaque: ‘Deus faz o sol e a lua pararem! O dia mais longo da história durante uma batalha crucial.’
+},
+{
+id: ‘juizes’,
+nome: ‘Juízes’,
+num: ‘7º’,
+autor: ‘Samuel (tradição)’,
+data: ‘1050-1000 a.C.’,
+caps: ‘21 capítulos’,
+tema: ‘🔄 Ciclo Rebelde’,
+resumo: ‘CAOS total! Israel abandona Deus repetidamente. Juízes os salvam temporariamente.’,
+conteudo: ‘Ciclo repetido: pecado-opressão-clamor-libertação • Otniel (1º juiz) • Eúde (canhoto estratégico) • Débora (mulher juíza!) • Gideão (300 guerreiros) • Jefté (voto trágico) • Sansão (força no cabelo) • Degeneração moral total’,
+versiculo: ‘“Cada um fazia o que achava certo aos seus próprios olhos” (21:25)’,
+destaque: ‘Período mais caótico da história de Israel! Sansão matou 1000 filisteus com uma queixada de jumento.’
+},
+{
+id: ‘rute’,
+nome: ‘Rute’,
+num: ‘8º’,
+autor: ‘Samuel (tradição)’,
+data: ‘1000 a.C.’,
+caps: ‘4 capítulos’,
+tema: ‘❤️ Lealdade’,
+resumo: ‘Linda história de AMOR, LEALDADE e REDENÇÃO. Rute entra na linhagem de Jesus!’,
+conteudo: ‘Fome severa em Israel • Noemi perde marido e dois filhos • Rute escolhe ficar com Noemi • “Teu povo é meu povo, teu Deus é meu Deus” • Trabalha duro no campo • Boaz, o redentor generoso • Casamento abençoado • Obede nasce (avô do rei Davi!)’,
+versiculo: ‘“Onde quer que fores, irei; onde quer que pousares, ali pousarei” (1:16)’,
+destaque: ‘Moabita pagã se torna bisavó do rei Davi e ancestral direto de Jesus Cristo! Graça incrível.’
+},
+{
+id: ‘1samuel’,
+nome: ‘1 Samuel’,
+num: ‘9º’,
+autor: ‘Samuel, Natã, Gade’,
+data: ‘930-722 a.C.’,
+caps: ‘31 capítulos’,
+tema: ‘👑 Primeiro Rei’,
+resumo: ‘Do último JUIZ (Samuel) ao primeiro REI (Saul) e surgimento de Davi.’,
+conteudo: ‘Ana ora fervorosamente por um filho • Samuel chamado por Deus menino • Arca capturada pelos filisteus • Israel pede um rei • Saul ungido primeiro rei • Davi vs Golias gigante! • Amizade profunda Davi-Jônatas • Saul persegue Davi com ciúmes • Davi poupa Saul 2 vezes • Saul morre em batalha’,
+versiculo: ‘“O homem vê a aparência, mas o SENHOR vê o coração” (16:7)’,
+destaque: ‘Jovem Davi com apenas 5 pedras mata o gigante Golias de quase 3 metros! Tinha só uma funda de pastor.’
+},
+{
+id: ‘2samuel’,
+nome: ‘2 Samuel’,
+num: ‘10º’,
+autor: ‘Natã, Gade’,
+data: ‘930-722 a.C.’,
+caps: ‘24 capítulos’,
+tema: ‘👑 Rei Davi’,
+resumo: ‘REINADO de Davi: vitórias militares gloriosas e falhas terríveis e humanas.’,
+conteudo: ‘Davi rei de Judá, depois de todo Israel • Jerusalém conquistada e estabelecida • Arca trazida para Jerusalém • Aliança eterna com casa de Davi • Grandes vitórias militares • Pecado com Bate-Seba • Natã profeta confronta • Filho morre • Absalão se rebela • Davi foge de Jerusalém • Vitória final’,
+versiculo: ‘“Tua casa e teu reino serão estabelecidos para sempre diante de ti” (7:16)’,
+destaque: ‘Deus promete: o Messias virá da descendência de Davi! Cumprido 1000 anos depois em Jesus de Nazaré.’
+},
+{
+id: ‘1reis’,
+nome: ‘1 Reis’,
+num: ‘11º’,
+autor: ‘Jeremias (tradição)’,
+data: ‘560-538 a.C.’,
+caps: ‘22 capítulos’,
+tema: ‘⚡ Glória e Queda’,
+resumo: ‘SALOMÃO constrói o Templo glorioso. Reino se DIVIDE após sua morte trágica.’,
+conteudo: ‘Salomão pede sabedoria a Deus • Templo magnífico construído (7 anos!) • Rainha de Sabá o visita impressionada • 700 esposas desviam Salomão • Reino dividido em Norte e Sul • Elias enfrenta 450 profetas de Baal • Fogo do céu desce! • Elias alimentado por corvos no deserto’,
+versiculo: ‘“Dá-me, pois, um coração sábio e entendido” (3:9)’,
+destaque: ‘Salomão tinha 700 esposas e 300 concubinas! O Templo era coberto completamente de ouro puro.’
+},
+{
+id: ‘2reis’,
+nome: ‘2 Reis’,
+num: ‘12º’,
+autor: ‘Jeremias (tradição)’,
+data: ‘560-538 a.C.’,
+caps: ‘25 capítulos’,
+tema: ‘💔 Destruição’,
+resumo: ‘QUEDA devastadora dos dois reinos! Israel (722) e Judá (586) vão para exílio.’,
+conteudo: ‘Elias sobe ao céu em carro de fogo! • Eliseu recebe porção dobrada (milagres) • Israel destruída pela Assíria • Ezequias ganha 15 anos de vida • Manassés (pior rei da história) • Josias (melhor rei!) • Judá destruída pela Babilônia • Templo queimado completamente • Exílio babilônico’,
+versiculo: ‘“Convertei-vos, cada um, dos seus maus caminhos” (17:13)’,
+destaque: ‘Elias não morreu - subiu vivo ao céu em um redemoinho! Único homem além de Enoque a não ver morte.’
+},
+{
+id: ‘1cronicas’,
+nome: ‘1 Crônicas’,
+num: ‘13º’,
+autor: ‘Esdras’,
+data: ‘450-430 a.C.’,
+caps: ‘29 capítulos’,
+tema: ‘📜 Genealogias’,
+resumo: ‘História de Israel focando especialmente em Davi e adoração no Templo.’,
+conteudo: ‘Genealogia completa: Adão-Abraão-Davi • Morte de Saul em batalha • Davi estabelecido como rei • Jerusalém conquistada e fortificada • Arca trazida com celebração • Músicos e levitas organizados • Preparativos detalhados do Templo • Oferta voluntária massiva do povo’,
+versiculo: ‘“Buscai o SENHOR e a sua força; buscai perpetuamente a sua face” (16:11)’,
+destaque: ‘Escrito APÓS o exílio para encorajar o povo. Foca nos aspectos positivos e na fidelidade de Deus!’
+},
+{
+id: ‘2cronicas’,
+nome: ‘2 Crônicas’,
+num: ‘14º’,
+autor: ‘Esdras’,
+data: ‘450-430 a.C.’,
+caps: ‘36 capítulos’,
+tema: ‘⛪ Templo’,
+resumo: ‘História de Judá focando no TEMPLO e na importância da adoração correta.’,
+conteudo: ‘Salomão constrói Templo magnífico • Glória de Deus enche o Templo • História dos reis de Judá (bons e maus) • Reformas religiosas periódicas • Apostasias recorrentes • Profecias ignoradas repetidamente • Jerusalém destruída finalmente • Decreto esperançoso de Ciro!’,
+versiculo: ‘“Se o meu povo… se humilhar, orar… então eu ouvirei dos céus” (7:14)’,
+destaque: ‘Termina com ESPERANÇA mesmo após tragédia: decreto de Ciro permite volta a Jerusalém e reconstrução!’
+},
+{
+id: ‘esdras’,
+nome: ‘Esdras’,
+num: ‘15º’,
+autor: ‘Esdras’,
+data: ‘457-444 a.C.’,
+caps: ‘10 capítulos’,
+tema: ‘🏗️ Reconstrução’,
+resumo: ‘RETORNO do exílio! Templo reconstruído em meio a forte oposição e desânimo.’,
+conteudo: ‘Decreto libertador de Ciro • 50 mil pessoas voltam • Fundação do Templo lançada • Inimigos atrapalham constantemente • Obra parada 16 anos • Ageu e Zacarias animam • Templo finalmente terminado! • Esdras ensina a Lei • Reforma espiritual profunda’,
+versiculo: ‘“A mão do nosso Deus é sobre todos os que o buscam para o bem” (8:22)’,
+destaque: ‘Gap misterioso de 58 anos entre capítulos 6-7! Esdras era escriba habilidoso e sacerdote dedicado.’
+},
+{
+id: ‘neemias’,
+nome: ‘Neemias’,
+num: ‘16º’,
+autor: ‘Neemias’,
+data: ‘445-430 a.C.’,
+caps: ‘13 capítulos’,
+tema: ‘🧱 Muros’,
+resumo: ‘MUROS de Jerusalém reconstruídos em apenas 52 dias! Combinação perfeita: oração + ação.’,
+conteudo: ‘Neemias chora por Jerusalém destruída • Rei Artaxerxes permite volta • Inspeção noturna secreta dos muros • Reconstrução começa com oposição • Sambalate e Tobia zombam • Trabalham com espada numa mão • Muros prontos em 52 dias! • Lei lida publicamente 7 dias • Aliança renovada solenemente’,
+versiculo: ‘“Não vos entristeçais, porque a alegria do SENHOR é a vossa força” (8:10)’,
+destaque: ‘Neemias era copeiro do rei - provava o vinho antes. Posição de extrema confiança e perigo constante!’
+},
+{
+id: ‘ester’,
+nome: ‘Ester’,
+num: ‘17º’,
+autor: ‘Desconhecido’,
+data: ‘483-473 a.C.’,
+caps: ‘10 capítulos’,
+tema: ‘👸 Providência’,
+resumo: ‘Rainha judia corajosa SALVA seu povo inteiro do genocídio. Deus age nos bastidores!’,
+conteudo: ‘Rainha Vasti deposta por desobediência • Ester escolhida nova rainha • Mordecai denuncia conspiração contra rei • Hamã planeja extermínio dos judeus • Ester arrisca vida pelo povo • “Se perecer, pereci” • Verdade revelada dramaticamente • Hamã enforcado na própria forca • Festa de Purim estabelecida’,
+versiculo: ‘“Quem sabe se para momento como este chegaste a este reino?” (4:14)’,
+destaque: ‘ÚNICO livro que não menciona “Deus” explicitamente, mas Ele está em CADA detalhe! Providência perfeita.’
+}
+]
+},
+poeticos: {
+nome: ‘LIVROS POÉTICOS E DE SABEDORIA’,
+descricao: ‘5 livros lindíssimos de poesia, louvor e sabedoria para viver bem!’,
+cor: ‘bg-gradient-to-r from-purple-600 to-purple-700’,
+icon: ‘🎵’,
+livros: [
+{
+id: ‘jo’,
+nome: ‘Jó’,
+num: ‘18º’,
+autor: ‘Moisés ou Desconhecido’,
+data: ‘2000 a.C. (história)’,
+caps: ‘42 capítulos’,
+tema: ‘😢 Sofrimento’,
+resumo: ‘Por que o JUSTO sofre tanto? Mistério parcialmente revelado: Deus é SOBERANO!’,
+conteudo: ‘Jó é homem íntegro e próspero • Satanás acusa e pede permissão • Jó perde absolutamente TUDO (filhos, bens, saúde) • 3 amigos vêm “consolar” • Debates teológicos longos • Eliú intervém com sabedoria • DEUS responde do redemoinho impressionante! • Jó se arrepende humildemente • Restauração DUPLA de tudo’,
+versiculo: ‘“Eu sei que o meu Redentor VIVE e por fim se levantará sobre a terra” (19:25)’,
+destaque: ‘Provavelmente o livro MAIS ANTIGO da Bíblia inteira! Jó viveu mais de 140 anos APÓS a provação.’
+},
+{
+id: ‘salmos’,
+nome: ‘Salmos’,
+num: ‘19º’,
+autor: ‘Davi (73), Asafe, Filhos de Corá, outros’,
+data: ‘1440-430 a.C.’,
+caps: ‘150 salmos’,
+tema: ‘🎶 Louvor e Oração’,
+resumo: ‘HINÁRIO de Israel! Orações e cânticos para absolutamente TODA situação da vida.’,
+conteudo: ‘Salmos de: louvor • lamento • ação de graças • arrependimento • sabedoria • imprecação • messias • realeza • Tipos variados: reais, penitenciais, alfabéticos • Dividido em 5 livros como a Torah • Expressam todas emoções humanas’,
+versiculo: ‘“O SENHOR é o meu pastor, nada me faltará” (23:1)’,
+destaque: ‘Livro MAIS LONGO da Bíblia! Salmo 117 = capítulo mais curto. Salmo 119 = capítulo mais longo!’
+},
+{
+id: ‘proverbios’,
+nome: ‘Provérbios’,
+num: ‘20º’,
+autor: ‘Salomão principalmente, Agur, Lemuel’,
+data: ‘970-686 a.C.’,
+caps: ‘31 capítulos’,
+tema: ‘🧠 Sabedoria Prática’,
+resumo: ‘MANUAL completo de sabedoria prática para viver com INTELIGÊNCIA divina!’,
+conteudo: ‘Sabedoria vs tolice constantemente • Temor do Senhor é o início • Educação sábia dos filhos • Valor do trabalho duro • Perigos da preguiça • Amizade verdadeira e falsa • Controle vital da língua • Integridade nos negócios • Mulher virtuosa admirável (cap 31)’,
+versiculo: ‘“O temor do SENHOR é o princípio da sabedoria” (9:10)’,
+destaque: ‘31 capítulos = 1 por dia do mês! Salomão falou 3000 provérbios, só os melhores foram escritos.’
+},
+{
+id: ‘eclesiastes’,
+nome: ‘Eclesiastes’,
+num: ‘21º’,
+autor: ‘Salomão (o Pregador)’,
+data: ‘935 a.C.’,
+caps: ‘12 capítulos’,
+tema: ‘🤔 Sentido da Vida’,
+resumo: ‘Busca filosófica pelo SENTIDO da vida. Conclusão profunda: tema a Deus acima de tudo!’,
+conteudo: ‘“Vaidade de vaidades, tudo é vaidade!” • Salomão testa tudo: prazer, riqueza, sabedoria humana • TUDO vazio e sem sentido sem Deus • Há tempo para tudo (cap 3 famoso) • Desfrute a vida COM Deus • Conclusão final: Teme a Deus e guarda seus mandamentos’,
+versiculo: ‘“Tudo tem o seu tempo determinado, e há tempo para todo propósito debaixo do céu” (3:1)’,
+destaque: ‘Salomão velho reflete sobre toda sua vida. Escrito após seus desvios espirituais. Lições muito duras!’
+},
+{
+id: ‘cantares’,
+nome: ‘Cântico dos Cânticos’,
+num: ‘22º’,
+autor: ‘Salomão’,
+data: ‘970-930 a.C.’,
+caps: ‘8 capítulos’,
+tema: ‘💕 Amor Romântico’,
+resumo: ‘Celebração poética belíssima do AMOR romântico e físico no casamento. Puro e lindo!’,
+conteudo: ‘Diálogos apaixonados entre noivo e noiva • Elogios mútuos intensos e poéticos • “Eu sou do meu amado e ele é meu” • Busca ansiosa do amado • Beleza do amor conjugal celebrada • Beijos desejados • Intimidade física celebrada sem vergonha’,
+versiculo: ‘“Forte como a morte é o amor, duro como a sepultura é o ciúme” (8:6)’,
+destaque: ‘Também lido como alegoria do amor entre Cristo e a Igreja. “Cântico dos Cânticos” = o MELHOR cântico!’
+}
+]
+},
+profetas_maiores: {
+nome: ‘PROFETAS MAIORES’,
+descricao: ‘5 livros chamados “maiores” apenas pelo TAMANHO (não por importância!)’,
+cor: ‘bg-gradient-to-r from-red-600 to-red-700’,
+icon: ‘📢’,
+livros: [
+{
+id: ‘isaias’,
+nome: ‘Isaías’,
+num: ‘23º’,
+autor: ‘Isaías filho de Amós’,
+data: ‘740-680 a.C.’,
+caps: ‘66 capítulos’,
+tema: ‘✝️ Messias Salvador’,
+resumo: ‘Profetiza JESUS com detalhes impressionantes 700 anos antes! Chamado “5º Evangelho” do AT.’,
+conteudo: ‘Visão gloriosa de Deus santo • “Eis-me aqui, envia-me!” • Juízo severo sobre Judá • Emanuel nascerá de virgem • Menino nos nasceu, governo sobre ombros! • Servo Sofredor detalhado (cap 53!!!) • Crucificação descrita precisamente • Conforto profundo ao povo • Novo céu e nova terra prometidos’,
+versiculo: ‘“Mas ele foi FERIDO pelas nossas transgressões e moído pelas nossas iniquidades” (53:5)’,
+destaque: ‘Capítulo 53 detalha a crucificação 700 anos ANTES de acontecer! Precisão sobrenatural e assombrosa.’
+},
+{
+id: ‘jeremias’,
+nome: ‘Jeremias’,
+num: ‘24º’,
+autor: ‘Jeremias’,
+data: ‘627-586 a.C.’,
+caps: ‘52 capítulos’,
+tema: ‘😭 Juízo e Nova Aliança’,
+resumo: ‘Profeta CHORÃO anuncia destruição inevitável, mas também ESPERANÇA futura incrível!’,
+conteudo: ‘Chamado ainda jovem • Avisos constantemente ignorados por 40 anos • Judá irá para cativeiro • 70 anos preditos com precisão • Jogado em cisterna lamacenta • Nova Aliança linda prometida! • Jerusalém finalmente cai • Jeremias forçado ao Egito • Planos de paz de Deus revelados’,
+versiculo: ‘“Porque eu é que sei que pensamentos tenho a vosso respeito… de paz e não de mal” (29:11)’,
+destaque: ‘Jeremias sofreu MUITO e constantemente! Jogado em lama, preso, rejeitado. Mas permaneceu fiel até o fim.’
+},
+{
+id: ‘lamentacoes’,
+nome: ‘Lamentações’,
+num: ‘25º’,
+autor: ‘Jeremias’,
+data: ‘586 a.C.’,
+caps: ‘5 capítulos’,
+tema: ‘💔 Choro pela Cidade’,
+resumo: ‘LAMENTO profundo e doloroso pela destruição total de Jerusalém. Dor imensa, mas fé permanece!’,
+conteudo: ‘Jerusalém completamente destruída • Templo sagrado queimado • Povo massacrado brutalmente • Fome terrível e canibalismo • Pecados confessados honestamente • MAS: misericórdias se renovam! • Esperança firme em Deus fiel • Oração final por restauração futura’,
+versiculo: ‘“As misericórdias do SENHOR são a causa de não sermos consumidos!” (3:22-23)’,
+destaque: ‘Poesia acróstica hebraica (cada verso começa com letra do alfabeto). Lido ainda hoje no Muro das Lamentações!’
+},
+{
+id: ‘ezequiel’,
+nome: ‘Ezequiel’,
+num: ‘26º’,
+autor: ‘Ezequiel sacerdote’,
+data: ‘593-571 a.C.’,
+caps: ‘48 capítulos’,
+tema: ‘👁️ Visões Apocalípticas’,
+resumo: ‘Visões APOCALÍPTICAS impressionantes durante o exílio. Glória tremenda de Deus revelada!’,
+conteudo: ‘Visão inicial: rodas dentro de rodas! • Querubins com 4 faces • Trono glorioso de Deus • Chamado como atalaia de Israel • Juízo severo sobre Jerusalém • Vale de ossos secos que VIVEM! • Profecias sobre nações vizinhas • Templo futuro milenar detalhado • Rio de vida que cura tudo’,
+versiculo: ‘“Porei dentro de vós um coração NOVO e um espírito novo!” (36:26)’,
+destaque: ‘Visão dos ossos secos = profecia sobre Israel renascer como nação! Cumprida milagrosamente em 1948!’
+},
+{
+id: ‘daniel’,
+nome: ‘Daniel’,
+num: ‘27º’,
+autor: ‘Daniel’,
+data: ‘605-530 a.C.’,
+caps: ‘12 capítulos’,
+tema: ‘🦁 Fidelidade Extrema’,
+resumo: ‘Fidelidade inabalável em terra pagã + visões PROFÉTICAS precisas do futuro mundial!’,
+conteudo: ‘Daniel jovem levado à Babilônia • Sonho da estátua (4 reinos mundiais!) • Fornalha ardente (3 amigos salvos) • Escrita misteriosa na parede • COVA DOS LEÕES! • 70 semanas proféticas sobre Messias • Visões dos reinos futuros • Anjo Miguel guerreia • Profecias do fim dos tempos’,
+versiculo: ‘“O Deus do céu levantará um reino que NUNCA será destruído” (2:44)’,
+destaque: ‘Daniel orava 3 vezes ao dia com janela aberta para Jerusalém. Leões famintos não o tocaram!’
+}
+]
+},
+profetas_menores: {
+nome: ‘PROFETAS MENORES’,
+descricao: ‘12 profetas “menores” só pelo tamanho dos livros! Mensagens PODEROSAS e relevantes!’,
+cor: ‘bg-gradient-to-r from-orange-600 to-orange-700’,
+icon: ‘📣’,
+livros: [
+{
+id: ‘oseias’,
+nome: ‘Oséias’,
+num: ‘28º’,
+autor: ‘Oséias’,
+data: ‘755-710 a.C.’,
+caps: ‘14 capítulos’,
+tema: ‘💔 Amor Fiel de Deus’,
+resumo: ‘Deus manda casar com PROSTITUTA para ilustrar Seu amor fiel e persistente por Israel infiel!’,
+conteudo: ‘Oséias casa com Gômer (prostituta) • Filhos recebem nomes proféticos terríveis • Gômer é constantemente infiel • Oséias a COMPRA de volta como escrava! • Israel = prostituta espiritual • Amor de Deus nunca desiste • Chamado urgente: volta para mim!’,
+versiculo: ‘“Porque eu quero misericórdia, e não sacrifício” (6:6)’,
+destaque: ‘Deus literalmente manda profeta casar com prostituta! Ilustração viva poderosa do evangelho da graça.’
+},
+{
+id: ‘joel’,
+nome: ‘Joel’,
+num: ‘29º’,
+autor: ‘Joel’,
+data: ‘835 ou 500 a.C.’,
+caps: ‘3 capítulos’,
+tema: ‘🦗 Praga e Pentecostes’,
+resumo: ‘Praga devastadora de GAFANHOTOS + promessa linda: Espírito derramado em Pentecostes!’,
+conteudo: ‘Devastação total por gafanhotos • Chamado urgente ao jejum nacional • Arrependimento sincero do povo • O terrível Dia do SENHOR vem! • Restauração abundante prometida • ESPÍRITO derramado sobre toda carne! • Sinais no céu e na terra • Juízo final sobre as nações’,
+versiculo: ‘“Derramarei o meu Espírito sobre TODA carne” (2:28)’,
+destaque: ‘Pedro cita esse versículo em Atos 2 no Pentecostes! Profecia cumprida 400-800 anos depois com poder!’
+},
+{
+id: ‘amos’,
+nome: ‘Amós’,
+num: ‘30º’,
+autor: ‘Amós’,
+data: ‘760-750 a.C.’,
+caps: ‘9 capítulos’,
+tema: ‘⚖️ Justiça Social’,
+resumo: ‘PASTOR simples denuncia corajosamente INJUSTIÇA social brutal. Deus defende fervorosamente os pobres!’,
+conteudo: ‘Juízo sobre 6 nações vizinhas + Israel • “Vacas de Basã” (mulheres ricas opressoras) • Clamor apaixonado por justiça social! • 5 visões progressivas de juízo • Gafanhotos, fogo, prumo, cesto de frutos, altar destruído • Restauração futura de Israel’,
+versiculo: ‘“Corra, porém, o juízo como as ÁGUAS, e a justiça como ribeiro perene!” (5:24)’,
+destaque: ‘Amós era pastor de ovelhas e cultivador de figos. Não profeta profissional. Deus usa quem quer!’
+},
+{
+id: ‘obadias’,
+nome: ‘Obadias’,
+num: ‘31º’,
+autor: ‘Obadias’,
+data: ‘586 a.C.’,
+caps: ‘1 capítulo’,
+tema: ‘⚔️ Juízo sobre Edom’,
+resumo: ‘Livro MAIS CURTO do AT! Juízo devastador sobre Edom por trair irmão Israel cruelmente.’,
+conteudo: ‘Orgulho arrogante de Edom • “Quem me derrubará ao chão?” • Traição covarde contra Judá na queda • “Como fizeste, assim te será feito!” • Edom será completamente destruído • Israel será restaurado gloriosamente • O reino pertence ao SENHOR!’,
+versiculo: ‘“Como fizeste, assim se fará contigo; a tua recompensa voltará sobre a tua cabeça” (v.15)’,
+destaque: ‘SÓ 21 versículos! Edom = descendentes de Esaú (irmão gêmeo de Jacó). Rivalidade milenar antiga.’
+},
+{
+id: ‘jonas’,
+nome: ‘Jonas’,
+num: ‘32º’,
+autor: ‘Jonas’,
+data: ‘760 a.C.’,
+caps: ‘4 capítulos’,
+tema: ‘🐋 Fuga e Misericórdia’,
+resumo: ‘Profeta REBELDE foge de Deus! Engolido por peixe gigante. Nínive se arrepende milagrosamente!’,
+conteudo: ‘Jonas foge de Deus para Társis • Tempestade terrível no mar • Jogado ao mar pelos marinheiros • Grande peixe o engole 3 dias! • Oração desesperada do ventre • Vomitado na praia • Prega em Nínive relutantemente • 120 mil se arrependem! • Jonas fica FURIOSO com misericórdia’,
+versiculo: ‘“Porque eu sabia que és Deus clemente e misericordioso” (4:2)’,
+destaque: ‘Jesus usa Jonas como SINAL: 3 dias no peixe = 3 dias no túmulo! Nínive era capital da cruel Assíria.’
+},
+{
+id: ‘miqueias’,
+nome: ‘Miqueias’,
+num: ‘33º’,
+autor: ‘Miqueias’,
+data: ‘735-700 a.C.’,
+caps: ‘7 capítulos’,
+tema: ‘⚖️ Justiça e Humildade’,
+resumo: ‘Profetiza nascimento de JESUS em Belém! Deus exige: justiça, misericórdia e humildade.’,
+conteudo: ‘Juízo sobre Samaria e Jerusalém • Falsos profetas denunciados • Opressão dos pobres exposta • Messias nascerá em BELÉM! • “Mas tu, Belém Efrata…” • O que Deus requer? • Andar humildemente com Deus • Quem é Deus que perdoa?’,
+versiculo: ‘“Ele te declarou, ó homem, o que é bom: justiça, misericórdia, andar humildemente” (6:8)’,
+destaque: ‘Profecia de Belém citada pelos escribas quando magos perguntam onde nasceria o Rei! 700 anos antes!’
+},
+{
+id: ‘naum’,
+nome: ‘Naum’,
+num: ‘34º’,
+autor: ‘Naum’,
+data: ‘663-612 a.C.’,
+caps: ‘3 capítulos’,
+tema: ‘⚡ Vingança Divina’,
+resumo: ‘Profecia da DESTRUIÇÃO total de Nínive cruel. Deus vingará Seu povo oprimido!’,
+conteudo: ‘Deus é zeloso e vingador • Nínive será completamente destruída • Cidade sanguinária e cheia de mentiras • Opressora brutal de nações • Juízo irrevogável decretado • Ninguém a socorrerá • Alegria pela queda da tirana • Justiça finalmente feita’,
+versiculo: ‘“O SENHOR é bom, fortaleza no dia da angústia, e conhece os que nele confiam” (1:7)’,
+destaque: ‘Nínive que se arrependeu em Jonas (150 anos antes) voltou à crueldade. Destruída em 612 a.C.!’
+},
+{
+id: ‘habacuque’,
+nome: ‘Habacuque’,
+num: ‘35º’,
+autor: ‘Habacuque’,
+data: ‘607 a.C.’,
+caps: ‘3 capítulos’,
+tema: ‘❓ Por Quê?’,
+resumo: ‘Profeta questiona DEUS corajosamente: Por que o mal prospera? Resposta: VIVA PELA FÉ!’,
+conteudo: ‘Habacuque questiona injustiça • “Por que permites iniquidade?” • Deus responde: babilônios virão! • Habacuque: “Mas eles são piores!” • “O justo viverá pela FÉ!” • Ai dos opressores • Linda oração poética • Confiarei mesmo sem nada!’,
+versiculo: ‘“O justo viverá pela sua FÉ” (2:4)’,
+destaque: ‘Versículo citado 3x no NT! Base da Reforma Protestante. Fé mesmo quando não entendemos tudo.’
+},
+{
+id: ‘sofonias’,
+nome: ‘Sofonias’,
+num: ‘36º’,
+autor: ‘Sofonias’,
+data: ‘640-609 a.C.’,
+caps: ‘3 capítulos’,
+tema: ‘🔥 Dia do SENHOR’,
+resumo: ‘O terrível DIA DO SENHOR se aproxima! Juízo global, mas também restauração linda!’,
+conteudo: ‘Grande Dia do SENHOR vem! • Tudo será consumido da terra • Juízo sobre Judá idólatra • Juízo sobre nações vizinhas • Jerusalém rebelde e corrupta • Deus habitará no meio de Israel • Cântico de alegria divino • Reunirei os dispersos’,
+versiculo: ‘“O SENHOR teu Deus está no meio de ti, poderoso para te salvar” (3:17)’,
+destaque: ‘Sofonias era bisneto do rei Ezequias. Profetizou durante reinado do jovem rei Josias, antes da reforma.’
+},
+{
+id: ‘ageu’,
+nome: ‘Ageu’,
+num: ‘37º’,
+autor: ‘Ageu’,
+data: ‘520 a.C.’,
+caps: ‘2 capítulos’,
+tema: ‘🏗️ Prioridades’,
+resumo: ‘Anime-se e CONSTRUA o Templo! Vocês cuidam de suas casas, mas a casa de Deus está em ruínas?’,
+conteudo: ‘Povo prioriza casas próprias • Templo de Deus está em ruínas • “Considerai vossos caminhos!” • Povo obedece e recomeça obra • Encorajamento aos desanimados • Glória futura > glória passada • O desejado das nações virá! • Zorobabel como selo’,
+versiculo: ‘“A glória desta última casa será maior que a da primeira” (2:9)’,
+destaque: ‘Obra parada 16 anos! Ageu e Zacarias motivam retomada. Templo terminado em 4 anos. Prioridades certas!’
+},
+{
+id: ‘zacarias’,
+nome: ‘Zacarias’,
+num: ‘38º’,
+autor: ‘Zacarias’,
+data: ‘520-480 a.C.’,
+caps: ‘14 capítulos’,
+tema: ‘🌟 Messias Rei’,
+resumo: ‘Visões apocalípticas e profecias MESSIÂNICAS detalhadas! Rei humilde em jumento, traspassado!’,
+conteudo: ‘8 visões noturnas impressionantes • Cavalos, chifres, candelabro, rolo voante • Josué sumo sacerdote purificado • Renovo virá! • Rei humilde montado em jumento • 30 moedas de prata • Traspassarão e olharão para mim • Ferido na casa dos amigos • Retorno glorioso do Messias’,
+versiculo: ‘“Alegra-te muito… eis aí te vem o teu Rei, humilde, montado em jumento” (9:9)’,
+destaque: ‘Mais citado sobre Jesus nos Evangelhos depois de Isaías! Precisão profética incrível sobre crucificação.’
+},
+{
+id: ‘malaquias’,
+nome: ‘Malaquias’,
+num: ‘39º’,
+autor: ‘Malaquias’,
+data: ‘430 a.C.’,
+caps: ‘4 capítulos’,
+tema: ‘💰 Dízimos e Fidelidade’,
+resumo: ‘ÚLTIMO profeta do AT! Repreende hipocrisia. Promete: Elias virá antes do grande Dia!’,
+conteudo: ‘Deus amou Jacó, rejeitou Esaú • Sacerdotes oferecem sacrifícios defeituosos • Povo rouba a Deus nos dízimos • “Provai-me nisto!” • Janelas do céu se abrirão • Livro de memórias dos fiéis • Sol da justiça nascerá • Elias virá antes do grande Dia’,
+versiculo: ‘“Trazei todos os dízimos… provai-me… se não vos abrir as janelas do céu” (3:10)’,
+destaque: ‘400 ANOS DE SILÊNCIO começam aqui! Nenhum profeta até João Batista (o “Elias” prometido).’
+}
+]
+},
+evangelhos: {
+nome: ‘OS 4 EVANGELHOS’,
+descricao: ‘A VIDA de Jesus contada por 4 perspectivas diferentes e complementares!’,
+cor: ‘bg-gradient-to-r from-yellow-500 to-yellow-600’,
+icon: ‘✝️’,
+livros: [
+{
+id: ‘mateus’,
+nome: ‘Mateus’,
+num: ‘40º’,
+autor: ‘Mateus (ex-cobrador de impostos)’,
+data: ‘50-70 d.C.’,
+caps: ‘28 capítulos’,
+tema: ‘👑 Jesus o REI’,
+resumo: ‘Jesus é o REI prometido, Messias de Israel! Escrito para judeus com muitas profecias cumpridas.’,
+conteudo: ‘Genealogia de Abraão a Jesus • Nascimento virginal • Magos visitam • Fuga para Egito • João Batista prepara • Batismo e tentação • Sermão do Monte completo! • Milagres poderosos • Parábolas do Reino • Entrada triunfal • Crucificação • RESSURREIÇÃO! • Grande Comissão’,
+versiculo: ‘“Eis que a virgem conceberá e dará à luz um filho, e ele será chamado EMANUEL” (1:23)’,
+destaque: ‘Mais de 60 citações do AT! Mostra Jesus cumprindo cada profecia messiânica. Rei dos reis!’
+},
+{
+id: ‘marcos’,
+nome: ‘Marcos’,
+num: ‘41º’,
+autor: ‘João Marcos (companheiro de Pedro)’,
+data: ‘50-60 d.C.’,
+caps: ‘16 capítulos’,
+tema: ‘💪 Jesus o SERVO’,
+resumo: ‘Jesus é o SERVO sofredor e poderoso! Evangelho de AÇÃO para romanos práticos.’,
+conteudo: ‘Começa direto com ministério • “E logo…” (palavra-chave) • João Batista • Batismo e tentação breves • Milagres de poder abundantes • Expulsa demônios constantemente • Cura multidões • Pedro confessa: Tu és o Cristo! • Transfiguração • Paixão detalhada • Ressurreição breve’,
+versiculo: ‘“Porque o Filho do Homem não veio para ser servido, mas para SERVIR” (10:45)’,
+destaque: ‘Mais CURTO e RÁPIDO! Sem genealogia. Foca em AÇÕES de Jesus. Escrito para romanos práticos.’
+},
+{
+id: ‘lucas’,
+nome: ‘Lucas’,
+num: ‘42º’,
+autor: ‘Lucas (médico e historiador)’,
+data: ‘60-80 d.C.’,
+caps: ‘24 capítulos’,
+tema: ‘👨 Jesus o HOMEM’,
+resumo: ‘Jesus é o HOMEM perfeito, Salvador de TODA humanidade! Mais completo e detalhado.’,
+conteudo: ‘Investigação cuidadosa histórica • Anúncios a Zacarias e Maria • Nascimento de João e Jesus • Pastores visitam • Apresentação no templo • Jesus menino aos 12 anos • Genealogia até Adão! • Parábolas exclusivas: Bom Samaritano, Filho Pródigo • Enfoque nos marginalizados • Ascensão’,
+versiculo: ‘“Porque o Filho do Homem veio buscar e salvar o que se havia PERDIDO” (19:10)’,
+destaque: ‘Médico escreve! Mais detalhes médicos. Enfatiza oração, mulheres, pobres. Para gregos cultos.’
+},
+{
+id: ‘joao’,
+nome: ‘João’,
+num: ‘43º’,
+autor: ‘João (discípulo amado)’,
+data: ‘85-95 d.C.’,
+caps: ‘21 capítulos’,
+tema: ‘⚡ Jesus é DEUS’,
+resumo: ‘Jesus é o DEUS eterno encarnado! Escrito para que CREIAM e tenham VIDA!’,
+conteudo: ‘“No princípio era o Verbo!” • 7 sinais (não “milagres”) • 7 “Eu Sou”: Pão, Luz, Porta, Pastor, Ressurreição, Caminho, Videira • Nicodemos: nascer de novo • Samaritana: água viva • Lázaro ressuscitado • Última Ceia longa • Oração sacerdotal • Paixão • Ressurreição • Tomé: “Meu Senhor e meu Deus!”’,
+versiculo: ‘“No princípio era o Verbo, e o Verbo era Deus” (1:1)’,
+destaque: ‘Mais TEOLÓGICO! Prova divindade de Jesus. “Para que creiais… e tenhais vida” (20:31). Sublime!’
+}
+]
+},
+historia_igreja: {
+nome: ‘HISTÓRIA DA IGREJA’,
+descricao: ‘1 livro contando o nascimento e expansão explosiva da Igreja primitiva!’,
+cor: ‘bg-gradient-to-r from-green-500 to-green-600’,
+icon: ‘🔥’,
+livros: [
+{
+id: ‘atos’,
+nome: ‘Atos dos Apóstolos’,
+num: ‘44º’,
+autor: ‘Lucas (continuação do Evangelho)’,
+data: ‘62-80 d.C.’,
+caps: ‘28 capítulos’,
+tema: ‘🔥 Espírito Santo’,
+resumo: ‘O ESPÍRITO SANTO empodera apóstolos! Igreja nasce e EXPLODE de Jerusalém ao mundo!’,
+conteudo: ‘Jesus sobe ao céu • Espírito Santo desce em Pentecostes! • 3 mil salvos num dia • Sinais e maravilhas abundantes • Ananias e Safira morrem • Estêvão apedrejado • Felipe e eunuco • Paulo convertido dramaticamente! • Pedro e Cornélio • Missões de Paulo (3 viagens) • Naufrágio • Roma’,
+versiculo: ‘“Recebereis poder ao descer sobre vós o Espírito Santo, e sereis minhas testemunhas” (1:8)’,
+destaque: ‘Poderia se chamar “Atos do Espírito Santo”! Igreja cresce de 120 para milhões em 30 anos!’
+}
+]
+},
+cartas_paulo: {
+nome: ‘CARTAS DE PAULO’,
+descricao: ‘13 cartas escritas pelo apóstolo Paulo às igrejas e líderes!’,
+cor: ‘bg-gradient-to-r from-indigo-600 to-indigo-700’,
+icon: ‘✉️’,
+livros: [
+{
+id: ‘romanos’,
+nome: ‘Romanos’,
+num: ‘45º’,
+autor: ‘Paulo’,
+data: ‘57 d.C.’,
+caps: ‘16 capítulos’,
+tema: ‘⚖️ Justificação pela Fé’,
+resumo: ‘TRATADO teológico mais completo! Salvação pela FÉ, não por obras. Base do cristianismo!’,
+conteudo: ‘Todos pecaram • Ira de Deus revelada • Judeus e gentios culpados • Justificação pela fé somente! • Cap 3-5: doutrina salvação • Cap 6-8: santificação (vida no Espírito!) • Cap 9-11: Israel no plano • Cap 12-16: vida prática transformada’,
+versiculo: ‘“Porque pela graça sois salvos, mediante a FÉ… não vem de obras” (Ef 2:8-9)’,
+destaque: ‘Carta que converteu Agostinho, Lutero, Wesley! Base da Reforma Protestante. Pura teologia!’
+},
+{
+id: ‘1corintios’,
+nome: ‘1 Coríntios’,
+num: ‘46º’,
+autor: ‘Paulo’,
+data: ‘55 d.C.’,
+caps: ‘16 capítulos’,
+tema: ‘⚠️ Problemas na Igreja’,
+resumo: ‘Igreja PROBLEMÁTICA! Paulo corrige: divisões, imoralidade, processos, dons espirituais, ressurreição.’,
+conteudo: ‘Divisões na igreja • Sabedoria de Deus vs mundo • Imoralidade sexual grave • Processos entre irmãos • Casamento e celibato • Carne sacrificada • Ordem no culto • Santa Ceia mal celebrada • Dons espirituais (cap 12-14) • AMOR cap 13! • Ressurreição defendida’,
+versiculo: ‘“Agora, pois, permanecem a fé, a esperança e o AMOR, estes três; mas o maior destes é o AMOR” (13:13)’,
+destaque: ‘Cap 13 = hino ao amor mais lindo! Cap 15 = defesa poderosa da ressurreição física de Jesus!’
+},
+{
+id: ‘2corintios’,
+nome: ‘2 Coríntios’,
+num: ‘47º’,
+autor: ‘Paulo’,
+data: ‘56 d.C.’,
+caps: ‘13 capítulos’,
+tema: ‘💪 Ministério Autêntico’,
+resumo: ‘Paulo defende seu apostolado! Sofrimento no ministério. Fraqueza humana, poder divino!’,
+conteudo: ‘Consolação nas tribulações • Nova aliança superior • Tesouro em vasos de barro • Ministério da reconciliação • Não vos prendais a jugo desigual • Arrependimento genuíno • Generosidade na oferta • Paulo defende apostolado • Espinho na carne • Falsos apóstolos expostos’,
+versiculo: ‘“A minha graça te basta, porque o meu poder se aperfeiçoa na FRAQUEZA” (12:9)’,
+destaque: ‘Carta mais PESSOAL e EMOCIONAL. Paulo abre coração. “Espinho na carne” misterioso mencionado.’
+},
+{
+id: ‘galatas’,
+nome: ‘Gálatas’,
+num: ‘48º’,
+autor: ‘Paulo’,
+data: ‘49-55 d.C.’,
+caps: ‘6 capítulos’,
+tema: ‘🔓 Liberdade em Cristo’,
+resumo: ‘NÃO VOLTEM à Lei! Salvação é pela FÉ, não circuncisão. LIBERDADE gloriosa em Cristo!’,
+conteudo: ‘Outro evangelho não há! • Paulo defende seu apostolado • Confronta Pedro publicamente • Abraão justificado pela fé • Lei = aio até Cristo • “Já não eu, Cristo vive em mim!” • Fruto vs obras da carne • Liberdade, não libertinagem • “Não desistamos de fazer o bem”’,
+versiculo: ‘“Para a LIBERDADE foi que Cristo nos libertou” (5:1)’,
+destaque: ‘“Romanos” em versão compacta e URGENTE! Paulo está FURIOSO com legalistas. Defesa apaixonada da graça!’
+},
+{
+id: ‘efesios’,
+nome: ‘Efésios’,
+num: ‘49º’,
+autor: ‘Paulo’,
+data: ‘60-62 d.C.’,
+caps: ‘6 capítulos’,
+tema: ‘⛪ Igreja Gloriosa’,
+resumo: ‘Carta sobre a IGREJA gloriosa! Bênçãos espirituais, unidade, armadura de Deus!’,
+conteudo: ‘Bênçãos espirituais nas regiões celestiais • Salvos pela graça • Éramos mortos, agora vivos! • Mistério: judeus e gentios um! • Cap 1-3: doutrina riquíssima • Cap 4-6: prática • Unidade do Espírito • Novo homem • Maridos e esposas • Armadura completa de Deus!’,
+versiculo: ‘“Porque pela graça sois salvos, por meio da fé… não vem de obras” (2:8-9)’,
+destaque: ‘Uma das cartas mais ELEVADAS teologicamente! Visão celestial da Igreja como corpo e noiva de Cristo.’
+},
+{
+id: ‘filipenses’,
+nome: ‘Filipenses’,
+num: ‘50º’,
+autor: ‘Paulo’,
+data: ‘61-62 d.C.’,
+caps: ‘4 capítulos’,
+tema: ‘😊 Alegria em Cristo’,
+resumo: ‘Carta da ALEGRIA! Escrita da prisão, mas transborda alegria. Cristo é tudo!’,
+conteudo: ‘Paulo preso, mas evangelho avança! • Viver é Cristo, morrer é lucro! • Hino cristológico sublime (2:5-11) • Jesus se esvaziou, se humilhou • Tudo perda por Cristo • Cidadãos do céu • Regozijai-vos SEMPRE! • Ansiedade por coisa nenhuma • Posso todas as coisas!’,
+versiculo: ‘“Posso todas as coisas naquele que me FORTALECE” (4:13)’,
+destaque: ‘“Alegria” e “regozijar” aparecem 16x! Paulo na PRISÃO mas radiante. Segredo: Cristo suficiente!’
+},
+{
+id: ‘colossenses’,
+nome: ‘Colossenses’,
+num: ‘51º’,
+autor: ‘Paulo’,
+data: ‘60-62 d.C.’,
+caps: ‘4 capítulos’,
+tema: ‘👑 Supremacia de Cristo’,
+resumo: ‘Cristo é SUPREMO sobre tudo! Resposta a heresias que diminuíam Jesus. Ele é suficiente!’,
+conteudo: ‘Ação de graças • Cristo: imagem do Deus invisível • Primogênito de toda criação • Nele habita TODA plenitude! • Reconciliação pela cruz • Mistério: Cristo em vós! • Cuidado com filosofias • Em Cristo estão escondidos todos tesouros • Vida ressurreta’,
+versiculo: ‘“Nele habita corporalmente TODA a plenitude da Divindade” (2:9)’,
+destaque: ‘Combate heresia gnóstica que negava divindade plena de Cristo. Jesus é TUDO que precisamos!’
+},
+{
+id: ‘1tessalonicenses’,
+nome: ‘1 Tessalonicenses’,
+num: ‘52º’,
+autor: ‘Paulo’,
+data: ‘50-51 d.C.’,
+caps: ‘5 capítulos’,
+tema: ‘☁️ Volta de Jesus’,
+resumo: ‘Primeira carta de Paulo! ESPERANÇA na volta de Jesus. Conforto sobre os que dormem.’,
+conteudo: ‘Igreja modelo e fiel • Evangelho chegou com poder • Imitadores de Paulo e Cristo • Ministério de Paulo recordado • Mortos em Cristo ressuscitarão PRIMEIRO! • Arrebatamento descrito • Dia do Senhor como ladrão • Vigiai e orai sempre • Examinai tudo, retende o bem’,
+versiculo: ‘“Porque o mesmo Senhor descerá do céu com alarido… e os mortos em Cristo ressuscitarão primeiro” (4:16)’,
+destaque: ‘Carta mais ANTIGA de Paulo (50 d.C.)! Descrição clara do arrebatamento da Igreja. Esperança viva!’
+},
+{
+id: ‘2tessalonicenses’,
+nome: ‘2 Tessalonicenses’,
+num: ‘53º’,
+autor: ‘Paulo’,
+data: ‘51-52 d.C.’,
+caps: ‘3 capítulos’,
+tema: ‘⏰ Antes da Volta’,
+resumo: ‘Correções sobre a volta de Cristo! Anticristo virá primeiro. Não sejam ociosos!’,
+conteudo: ‘Perseverança nas perseguições • Dia do Senhor ainda não chegou • Apostasia virá primeiro • Homem da iniquidade (Anticristo) será revelado • Mistério da iniquidade já opera • Cristo o destruirá com sopro • Eleitos para salvação • Tradições ensinadas • Não trabalha? Não coma!’,
+versiculo: ‘“Ninguém de maneira alguma vos engane; porque não será assim sem que antes venha a apostasia” (2:3)’,
+destaque: ‘Escrita poucos meses após 1 Tessalonicenses! Corrige mal-entendidos. Trabalhe enquanto espera!’
+},
+{
+id: ‘1timoteo’,
+nome: ‘1 Timóteo’,
+num: ‘54º’,
+autor: ‘Paulo’,
+data: ‘62-64 d.C.’,
+caps: ‘6 capítulos’,
+tema: ‘👨‍⚖️ Liderança da Igreja’,
+resumo: ‘Manual pastoral para TIMÓTEO jovem! Qualificações de líderes, combate heresias, ordem na igreja.’,
+conteudo: ‘Advertência contra falsos mestres • Oração por autoridades • Qualificações de bispos e diáconos • Mistério da piedade • Apostasia nos últimos tempos • Exercita-te na piedade • Viúvas, presbíteros • Amor ao dinheiro = raiz de males • Combate bom combate da fé!’,
+versiculo: ‘“Exercita-te a ti mesmo na PIEDADE” (4:7)’,
+destaque: ‘Timóteo era filho espiritual de Paulo, jovem pastor em Éfeso. Conselhos práticos atemporais!’
+},
+{
+id: ‘2timoteo’,
+nome: ‘2 Timóteo’,
+num: ‘55º’,
+autor: ‘Paulo’,
+data: ‘66-67 d.C.’,
+caps: ‘4 capítulos’,
+tema: ‘🔥 Última Carta’,
+resumo: ‘ÚLTIMA carta de Paulo antes do martírio! “Combati o bom combate, acabei a carreira!” Tocante!’,
+conteudo: ‘Reavivar o dom • Não te envergonhes do testemunho • Paulo preso novamente • Operário aprovado • “Toda Escritura é inspirada!” • Pregue a Palavra! • Tempos difíceis virão • “Combati, acabei, guardei!” • Só Lucas comigo • Todos me abandonaram’,
+versiculo: ‘“Combati o bom combate, acabei a carreira, guardei a FÉ” (4:7)’,
+destaque: ‘ÚLTIMA carta antes da execução (67 d.C.)! Paulo sabe que vai morrer. Palavras finais emocionantes!’
+},
+{
+id: ‘tito’,
+nome: ‘Tito’,
+num: ‘56º’,
+autor: ‘Paulo’,
+data: ‘62-64 d.C.’,
+caps: ‘3 capítulos’,
+tema: ‘⛪ Ordem na Igreja’,
+resumo: ‘Instruções para TITO organizar igrejas em Creta. Qualificações de presbíteros, sã doutrina.’,
+conteudo: ‘Qualificações de presbíteros • Cretenses: sempre mentirosos • Sã doutrina em tudo • Idosos e jovens • Servos obedientes • Graça ensina renúncia • Aguardando bendita esperança • Boas obras • Evita questões tolas • Herege após advertências’,
+versiculo: ‘“Porque a GRAÇA de Deus se manifestou, salvadora a todos os homens” (2:11)’,
+destaque: ‘Tito era grego não circuncidado, enviado a Creta (ilha difícil). Paulo confia nele totalmente!’
+},
+{
+id: ‘filemom’,
+nome: ‘Filemom’,
+num: ‘57º’,
+autor: ‘Paulo’,
+data: ‘60-62 d.C.’,
+caps: ‘1 capítulo’,
+tema: ‘🤝 Perdão e Reconciliação’,
+resumo: ‘Carta PESSOAL mais linda! Paulo intercede por Onésimo, escravo fugitivo. Agora irmão!’,
+conteudo: ‘Filemom amado e cooperador • Onésimo (escravo) fugiu • Convertido por Paulo na prisão • “Já não como servo, mas irmão!” • Recebe-o como a mim • Dívida? Ponha na minha conta! • Confiante em tua obediência • Prepara-me pousada’,
+versiculo: ‘“Já não como servo, mas… como IRMÃO amado” (v.16)’,
+destaque: ‘SÓ 25 versículos! Ilustração linda do evangelho: éramos escravos, agora filhos e irmãos em Cristo!’
+}
+]
+},
+cartas_gerais: {
+nome: ‘CARTAS GERAIS’,
+descricao: ‘8 cartas escritas por outros apóstolos para toda a Igreja!’,
+cor: ‘bg-gradient-to-r from-teal-600 to-teal-700’,
+icon: ‘📨’,
+livros: [
+{
+id: ‘hebreus’,
+nome: ‘Hebreus’,
+num: ‘58º’,
+autor: ‘Desconhecido (Paulo? Barnabé? Apolo?)’,
+data: ‘60-69 d.C.’,
+caps: ‘13 capítulos’,
+tema: ‘👑 Cristo Superior’,
+resumo: ‘CRISTO é SUPERIOR a tudo! Melhor que anjos, Moisés, sacerdotes. Nova e melhor aliança!’,
+conteudo: ‘Cristo superior aos anjos • Superior a Moisés • Sumo sacerdote superior • Melquisedeque misterioso • Nova aliança MELHOR! • Sacrifício perfeito e ÚNICO! • Cap 11: heróis da fé! • Corrida com perseverança • Não endureçais corações • Jesus, mesmo ontem, hoje, sempre’,
+versiculo: ‘“Jesus Cristo é o MESMO, ontem, e hoje, e eternamente” (13:8)’,
+destaque: ‘Autor desconhecido (mistério!). Cap 11 = galeria dos heróis da fé do AT. Cristo superior a TUDO!’
+},
+{
+id: ‘tiago’,
+nome: ‘Tiago’,
+num: ‘59º’,
+autor: ‘Tiago (irmão de Jesus)’,
+data: ‘45-50 d.C.’,
+caps: ‘5 capítulos’,
+tema: ‘💪 Fé Prática’,
+resumo: ‘Fé SEM obras é MORTA! Cristianismo prático e radical. Controle da língua, justiça social.’,
+conteudo: ‘Provações produzem paciência • Peça sabedoria com fé • Religião pura: órfãos e viúvas • Não façais acepção • Fé sem obras é MORTA! • Língua: pequeno leme, grande fogo! • Sabedoria do alto • Guerras e cobiças • Rico opressor será julgado • Orai uns pelos outros’,
+versiculo: ‘“Sede cumpridores da palavra, e não somente ouvintes” (1:22)’,
+destaque: ‘Escrita por IRMÃO de Jesus! Cristianismo extremamente prático. “Provérbios do NT”. Fé = ação!’
+},
+{
+id: ‘1pedro’,
+nome: ‘1 Pedro’,
+num: ‘60º’,
+autor: ‘Pedro apóstolo’,
+data: ‘62-64 d.C.’,
+caps: ‘5 capítulos’,
+tema: ‘😢 Sofrimento e Esperança’,
+resumo: ‘Como SOFRER como cristão! Esperança viva na perseguição. Vocês são escolhidos!’,
+conteudo: ‘Eleitos segundo presciência • Herança incorruptível reservada • Provações provam fé • Sacerdócio real, nação santa! • Pedra viva rejeitada • Sofrimento de Cristo exemplo • Sujeição às autoridades • Maridos e esposas • Humildade • Resistam firmes na fé • Leão ruge’,
+versiculo: ‘“Mas vós sois… SACERDÓCIO REAL, NAÇÃO SANTA, povo adquirido” (2:9)’,
+destaque: ‘Pedro escreve pouco antes de morrer mártir! Sofrer por Cristo = privilégio. Esperança inabalável!’
+},
+{
+id: ‘2pedro’,
+nome: ‘2 Pedro’,
+num: ‘61º’,
+autor: ‘Pedro apóstolo’,
+data: ‘65-68 d.C.’,
+caps: ‘3 capítulos’,
+tema: ‘⚠️ Falsos Mestres’,
+resumo: ‘CUIDADO com falsos mestres! Crescei no conhecimento. Jesus VOLTARÁ de fato!’,
+conteudo: ‘Preciosas promessas • Crescei na graça • Profecia da Escritura não é interpretação particular • Falsos profetas virão! • Destruição dos ímpios • Anjos caídos acorrentados • Escarnecedores: “Onde está a promessa?” • Dia do Senhor virá! • Céus e terra renovados’,
+versiculo: ‘“Crescei na GRAÇA e conhecimento de nosso Senhor Jesus Cristo” (3:18)’,
+destaque: ‘Última carta de Pedro antes do martírio! Adverte contra falsos mestres que negam a volta de Cristo.’
+},
+{
+id: ‘1joao’,
+nome: ‘1 João’,
+num: ‘62º’,
+autor: ‘João apóstolo’,
+data: ‘85-95 d.C.’,
+caps: ‘5 capítulos’,
+tema: ‘❤️ Amor e Comunhão’,
+resumo: ‘DEUS É AMOR! Teste da salvação: amor genuíno aos irmãos. Certeza da vida eterna!’,
+conteudo: ‘O que era desde o princípio • Comunhão com Deus = luz • Se dissermos não temos pecado… • Jesus é propiciação • Guardai mandamentos • Amai uns aos outros! • DEUS É AMOR! • Amor perfeito lança fora medo • Quem ama a Deus ama irmãos • Vencemos o mundo pela fé’,
+versiculo: ‘“DEUS É AMOR; e quem permanece no amor permanece em Deus” (4:16)’,
+destaque: ‘“Amor” aparece 52x! “Sabemos/conhecemos” 32x. João velho escreve com ternura: “Filhinhos…”’
+},
+{
+id: ‘2joao’,
+nome: ‘2 João’,
+num: ‘63º’,
+autor: ‘João apóstolo’,
+data: ‘85-95 d.C.’,
+caps: ‘1 capítulo’,
+tema: ‘⚖️ Verdade e Amor’,
+resumo: ‘Carta curtíssima! Andem na VERDADE e no AMOR. Não recebam falsos mestres em casa!’,
+conteudo: ‘Senhora eleita e filhos • Andando na verdade • Mandamento: amai uns aos outros • Muitos enganadores! • Quem não confessa Cristo na carne = anticristo • Não recebais em casa! • Não saudeis sequer! • Espero visitar pessoalmente’,
+versiculo: ‘“E o amor é este: que andemos segundo os seus MANDAMENTOS” (v.6)’,
+destaque: ‘SÓ 13 versículos! Equilíbrio perfeito: verdade SEM amor = dureza. Amor SEM verdade = engano!’
+},
+{
+id: ‘3joao’,
+nome: ‘3 João’,
+num: ‘64º’,
+autor: ‘João apóstolo’,
+data: ‘85-95 d.C.’,
+caps: ‘1 capítulo’,
+tema: ‘🤝 Hospitalidade’,
+resumo: ‘Elogia GAIO (hospitaleiro) e repreende DIÓTREFES (arrogante que rejeita apóstolos).’,
+conteudo: ‘Amado Gaio elogiado • Andas na verdade • Hospeda missionários • Age fielmente • Diótrefes ama primazia! • Rejeita apóstolos • Expulsa irmãos • Não imites o mal • Demétrio tem bom testemunho • Muitas coisas a escrever • Espero ver pessoalmente’,
+versiculo: ‘“Amado, não imites o MAL, mas o BEM” (v.11)’,
+destaque: ‘SÓ 14 versículos! Menor livro do NT. 3 personagens: Gaio (bom), Diótrefes (mau), Demétrio (bom).’
+},
+{
+id: ‘judas’,
+nome: ‘Judas’,
+num: ‘65º’,
+autor: ‘Judas (irmão de Tiago e Jesus)’,
+data: ‘65-80 d.C.’,
+caps: ‘1 capítulo’,
+tema: ‘⚔️ Batalha pela Fé’,
+resumo: ‘BATALHAI pela fé! Falsos mestres infiltrados serão julgados severamente. Mantende-vos!’,
+conteudo: ‘Batalhar pela fé entregue • Ímpios introduzidos secretamente • Exemplos de juízo: Israel, anjos, Sodoma • Miguel disputa corpo de Moisés • Ai deles! Caminho de Caim • Festas de amor contaminadas • Árvores mortas arrancadas • Ondas bravias • Estrelas errantes • Edificai-vos na fé!’,
+versiculo: ‘“Batalhai pela FÉ que uma vez foi entregue aos santos” (v.3)’,
+destaque: ‘SÓ 25 versículos! Irmão de Jesus escreve com urgência. Cita livros apócrifos (Enoque). Intenso!’
+}
+]
+},
+profetico: {
+nome: ‘LIVRO PROFÉTICO’,
+descricao: ‘O último livro! Revelação profética do FIM dos tempos e VITÓRIA final!’,
+cor: ‘bg-gradient-to-r from-rose-600 to-rose-700’,
+icon: ‘🔮’,
+livros: [
+{
+id: ‘apocalipse’,
+nome: ‘Apocalipse’,
+num: ‘66º’,
+autor: ‘João apóstolo’,
+data: ‘95-96 d.C.’,
+caps: ‘22 capítulos’,
+tema: ‘👑 Vitória Final’,
+resumo: ‘REVELAÇÃO de Jesus Cristo! Visões do FIM. Julgamento do mal. Novo céu, nova terra. Jesus VENCE!’,
+conteudo: ‘João na ilha de Patmos • Visão de Cristo glorificado • 7 cartas às igrejas • Trono celestial • 7 selos, 7 trombetas, 7 taças • 144 mil selados • Duas testemunhas • Mulher e dragão • Besta do mar (666!) • Babilônia cai! • Bodas do Cordeiro • Milênio • Satanás lançado no lago • Novo céu e terra! • Nova Jerusalém desce! • Árvore da vida restaurada!’,
+versiculo: ‘“Eis que venho SEM DEMORA. Bem-aventurado aquele que guarda as palavras da profecia deste livro” (22:7)’,
+destaque: ‘Livro mais simbólico e misterioso! JESUS VENCE no final! “Maranata - Vem, Senhor Jesus!” (22:20)’
+}
+]
+}
+};
+
+return (
+<div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-4 md:p-8">
+{/* Header Majestoso */}
+<div className="max-w-7xl mx-auto mb-8">
+<div className="bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 rounded-3xl p-8 shadow-2xl text-white text-center relative overflow-hidden">
+<div className="absolute inset-0 bg-white opacity-10"></div>
+<div className="relative z-10">
+<div className="flex items-center justify-center mb-4">
+<Book className="w-16 h-16 mr-4" />
+<Sparkles className="w-12 h-12" />
+</div>
+<h1 className="text-5xl md:text-6xl font-bold mb-4">
+📖 Guia Completo da Bíblia 📖
+</h1>
+<p className="text-xl md:text-2xl mb-2">
+Todos os 66 livros explicados de forma SIMPLES e CLARA!
+</p>
+<p className="text-lg opacity-90">
+✨ Perfeito para quem NUNCA leu a Bíblia antes! ✨
+</p>
+</div>
+</div>
+</div>
+
+```
+  {/* Estatísticas Rápidas */}
+  <div className="max-w-7xl mx-auto mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="bg-white rounded-xl p-4 shadow-lg text-center border-4 border-emerald-200">
+      <div className="text-3xl font-bold text-emerald-600">39</div>
+      <div className="text-sm text-gray-600">Livros do<br/>Antigo Testamento</div>
+    </div>
+    <div className="bg-white rounded-xl p-4 shadow-lg text-center border-4 border-blue-200">
+      <div className="text-3xl font-bold text-blue-600">27</div>
+      <div className="text-sm text-gray-600">Livros do<br/>Novo Testamento</div>
+    </div>
+    <div className="bg-white rounded-xl p-4 shadow-lg text-center border-4 border-purple-200">
+      <div className="text-3xl font-bold text-purple-600">1189</div>
+      <div className="text-sm text-gray-600">Capítulos<br/>no Total</div>
+    </div>
+    <div className="bg-white rounded-xl p-4 shadow-lg text-center border-4 border-rose-200">
+      <div className="text-3xl font-bold text-rose-600">66</div>
+      <div className="text-sm text-gray-600">Livros<br/>Completos</div>
+    </div>
+  </div>
+
+  {/* Menu de Seções */}
+  <div className="max-w-7xl mx-auto mb-8">
+    <div className="bg-white rounded-2xl p-6 shadow-xl">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
+        🎯 Escolha uma seção para explorar:
+      </h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        {Object.entries(secoes).map(([key, secao]) => (
+          <button
+            key={key}
+            onClick={() => setSelectedSection(key)}
+            className={`p-4 rounded-xl font-bold transition-all transform hover:scale-105 ${
+              selectedSection === key
+                ? `${secao.cor} text-white shadow-lg scale-105`
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <div className="text-3xl mb-2">{secao.icon}</div>
+            <div className="text-xs leading-tight">{secao.nome.split(' - ')[0]}</div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {/* Seção Selecionada */}
+  <div className="max-w-7xl mx-auto">
+    <div className={`${secoes[selectedSection].cor} rounded-2xl p-6 mb-6 shadow-xl text-white`}>
+      <div className="flex items-center justify-center mb-3">
+        <span className="text-5xl mr-4">{secoes[selectedSection].icon}</span>
+        <div>
+          <h2 className="text-3xl md:text-4xl font-bold">{secoes[selectedSection].nome}</h2>
+          <p className="text-lg md:text-xl opacity-90">{secoes[selectedSection].descricao}</p>
+        </div>
+      </div>
+    </div>
+
+    {/* Lista de Livros */}
+    <div className="space-y-4">
+      {secoes[selectedSection].livros.map((livro) => (
+        <div key={livro.id} className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-gray-100">
+          {/* Cabeçalho do Livro */}
+          <button
+            onClick={() => toggleBook(livro.id)}
+            className="w-full p-6 flex items-center justify-between hover:bg-gray-50 transition-colors"
+          >
+            <div className="flex items-center flex-1">
+              <div className={`${secoes[selectedSection].cor} w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0`}>
+                {livro.num}
+              </div>
+              <div className="text-left flex-1">
+                <h3 className="text-2xl font-bold text-gray-800 mb-1">{livro.nome}</h3>
+                <p className="text-gray-600">{livro.resumo}</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                    {livro.tema}
+                  </span>
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                    📚 {livro.caps}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="ml-4">
+              {expandedBooks[livro.id] ? (
+                <ChevronUp className="w-8 h-8 text-gray-400" />
+              ) : (
+                <ChevronDown className="w-8 h-8 text-gray-400" />
+              )}
+            </div>
+          </button>
+
+          {/* Conteúdo Expandido */}
+          {expandedBooks[livro.id] && (
+            <div className="border-t-2 border-gray-100 p-6 bg-gradient-to-br from-gray-50 to-white">
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                {/* Informações Básicas */}
+                <div className="space-y-4">
+                  <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+                    <div className="flex items-center mb-2">
+                      <User className="w-5 h-5 mr-2 text-green-600" />
+                      <span className="font-bold text-gray-700">Autor:</span>
+                    </div>
+                    <p className="text-gray-800 ml-7">{livro.autor}</p>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
+                    <div className="flex items-center mb-2">
+                      <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+                      <span className="font-bold text-gray-700">Data:</span>
+                    </div>
+                    <p className="text-gray-800 ml-7">{livro.data}</p>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-purple-500">
+                    <div className="flex items-center mb-2">
+                      <FileText className="w-5 h-5 mr-2 text-purple-600" />
+                      <span className="font-bold text-gray-700">Tamanho:</span>
+                    </div>
+                    <p className="text-gray-800 ml-7">{livro.caps}</p>
+                  </div>
+                </div>
+
+                {/* Conteúdo Principal */}
+                <div className="space-y-4">
+                  <div className="bg-amber-50 p-4 rounded-lg shadow-md border-2 border-amber-200">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-2">📜</span>
+                      <span className="font-bold text-amber-900">O que acontece:</span>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed">{livro.conteudo}</p>
+                  </div>
+
+                  <div className="bg-rose-50 p-4 rounded-lg shadow-md border-2 border-rose-200">
+                    <div className="flex items-center mb-2">
+                      <Heart className="w-5 h-5 mr-2 text-rose-600" />
+                      <span className="font-bold text-rose-900">Versículo destaque:</span>
+                    </div>
+                    <p className="text-gray-800 italic font-medium">{livro.versiculo}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Destaque Especial */}
+              <div className={`${secoes[selectedSection].cor} p-5 rounded-lg text-white shadow-lg`}>
+                <div className="flex items-start">
+                  <Star className="w-6 h-6 mr-3 flex-shrink-0 mt-1" />
+                  <div>
+                    <span className="font-bold text-lg block mb-2">✨ CURIOSIDADE ESPECIAL:</span>
+                    <p className="text-white/95 leading-relaxed">{livro.destaque}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Footer Inspirador */}
+  <div className="max-w-7xl mx-auto mt-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-white text-center shadow-2xl">
+    <h3 className="text-3xl font-bold mb-4">🎉 Parabéns por explorar a Bíblia! 🎉</h3>
+    <p className="text-xl mb-2">
+      A Bíblia é a Palavra viva de Deus, escrita em 66 livros ao longo de 1500 anos por mais de 40 autores diferentes!
+    </p>
+    <p className="text-lg opacity-90">
+      ✝️ Cada livro aponta para JESUS, o centro de toda a História! ✝️
+    </p>
+  </div>
+</div>
+```
+
+);
+};
+
+export default GuiaCompletoBiblia;
